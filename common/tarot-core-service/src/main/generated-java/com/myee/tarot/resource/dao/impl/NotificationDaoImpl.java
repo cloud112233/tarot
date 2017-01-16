@@ -67,7 +67,7 @@ public class NotificationDaoImpl extends GenericEntityDaoImpl<Long, Notification
 				query.where(qNotification.createTime.before(endDate));
 			}
 		}
-        query.where(qNotification.store.id.eq(id));
+//        query.where(qNotification.store.id.eq(id));  //日志查询不区分门店
         pageList.setRecordsTotal(query.fetchCount());
 
         query.orderBy(qNotification.createTime.desc());

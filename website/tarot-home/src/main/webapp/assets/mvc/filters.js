@@ -10,6 +10,7 @@ angular
     .filter('toasterManage',toasterManage)
     .filter('routers',routers)
     .filter('findEach',findEach)
+    .filter('regexMatch',regexMatch)
 
 //判断对象是否是空或空字符
 function isNullOrEmptyString(){
@@ -86,6 +87,16 @@ function inputType(){
                 break;
             default:
                 return false;
+        }
+    }
+}
+
+function regexMatch() {
+    return function(str,pattern) {
+        if(str.match(pattern)){
+            return true;
+        }else {
+            return false
         }
     }
 }

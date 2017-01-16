@@ -460,16 +460,17 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
             var addFile = $scope.formData_addFile;
             if (!addFile) {
                 addFile = new FormData();
+
             }
             var newFileName = $scope.formData.model.name;
             var newFilePath = $scope.formData.model.currPath;
-            if(newFilePath != "" && newFilePath != undefined && (newFilePath.indexOf("/") >= 0 || newFilePath.indexOf("\\") >= 0)){
-                $filter('toasterManage')(5, "文件路径不能包含/和\\！",false);
+            if(newFilePath != undefined && newFilePath != "" && !$filter('regexMatch')(newFilePath,'^[a-zA-Z0-9_\u4e00-\u9fa5]*$')){
+                $filter('toasterManage')(5, "文件路径只能包含汉字、字母、数字、下划线",false);
                 //toaster.error({body: "文件路径不能包含/、\\！"});
                 return;
             }
-            if(newFileName != "" && newFileName != undefined && (newFileName.indexOf("/") >= 0 || newFileName.indexOf("\\") >= 0)){
-                $filter('toasterManage')(5, "文件名称不能包含/和\\！",false);
+            if(newFileName != undefined && newFileName != "" && !$filter('regexMatch')(newFileName,'^[a-zA-Z0-9_\u4e00-\u9fa5\.\\s]*$')){
+                $filter('toasterManage')(5, "文件名只能包含汉字、字母、数字、下划线、.",false);
                 //toaster.error({body: "文件名称不能包含/、\\！"});
                 return;
             }
@@ -497,36 +498,34 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
                 //添加同文件夹下同名检测
                 var childrenArray = $scope.current.children;
                 var sameFileFlag = false;
-                for (var i = 0,childLen = childrenArray.length; i < childLen; i++) {
-                    var name = childrenArray[i].name;
-                    var type = childrenArray[i].type;
-                    if(type == 0 && newFilePath == name){
-                        var path = $scope.formData.model.path+"/"+newFilePath;
-                        cResource.save('../admin/file/search',{node: path},{}).then(function(resp){
-                            console.log(resp.rows)
-                            var granderChildren = data.rows.children;
-                            for( var j = 0,len =granderChildren.length; j < len; j++){
-                                var granderName = granderChildren[j].name;
-                                var granderType = granderChildren[j].type;
-                                if (granderType == 1 && newFileName == granderName) {
-                                    sameFileFlag = true;
-                                }
+                var currType = $scope.formData.model.type;
+                //界面输入路径不为空
+                if(newFilePath != "" && newFilePath != undefined ){
+                    var path = $scope.formData.model.path+"/"+newFilePath;
+                    cResource.save('../admin/file/search',{node: path},{}).then(function(resp){
+                        var granderChildren = resp.rows;
+                        for( var j = 0,len =granderChildren.length; j < len; j++){
+                            var granderName = granderChildren[j].name;
+                            var granderType = granderChildren[j].type;
+                            if(granderType == currType && newFileName == granderName) {
+                                sameDirFlag = true;
                             }
-                        });
-                    }else if (type == 1 && newFileName == name) {
-                        sameFileFlag = true;
-                    }
-                }
-                if (sameFileFlag) {
-                    cAlerts.confirm('已存在同名文件，是否覆盖?', function () {
-                        //点击确定回调
-                        createFile();
-                    }, function () {
-                        //点击取消回调
+                        }
+                        existSameFile(sameDirFlag)
                     });
-                } else {
-                    createFile();
+                }else{
+                    //界面输入路径为空只判断当前路径
+                    for (var i = 0,childLen = childrenArray.length; i < childLen; i++) {
+                        var name = childrenArray[i].name;
+                        var type = childrenArray[i].type;
+                        console.log(type == currType && name == newFileName);
+                        if(currType && name == newFileName){
+                            sameDirFlag = true;
+                        }
+                    }
+                    existSameFile(sameDirFlag)
                 }
+
 
                 //暂时注释，勿删
                 //var addFile = {};
@@ -555,6 +554,37 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
         }
     };
 
+    //function checkAllTextValid(newFilePath) {
+    //    //if(newFilePath != "" && newFilePath != undefined && (newFilePath.indexOf("/") >= 0
+    //    //    || newFilePath.indexOf("\\") >= 0 || newFilePath.indexOf("*") >= 0
+    //    //    || newFilePath.indexOf("\?") >= 0|| newFilePath.indexOf("\"") >= 0
+    //    //    || newFilePath.indexOf("\<") >= 0 || newFilePath.indexOf("\>") >= 0
+    //    //    || newFilePath.indexOf("\!") >= 0 || newFilePath.indexOf("\|") >= 0)
+    //    //    || newFilePath.indexOf("\#") >= 0 ){
+    //    //    return false
+    //    //}else{
+    //    //    return true;
+    //    //}
+    //    //var pattern = /^[wu4e00-u9fa5]+$/gi;
+    //    //if(pattern.test(newFilePath)){
+    //    //    return false;
+    //    //}
+    //    //return true;
+    //
+    //}
+
+    function existSameFile(flag){
+        if(flag){
+            cAlerts.confirm('已存在同名文件，是否覆盖?', function () {
+                //点击确定回调
+                createFile();
+            }, function () {
+                //点击取消回调
+            });
+        }else{
+            createFile();
+        }
+    }
     function createFile() {
         var entityText = JSON.stringify($scope.formData.model);
         var addFile = $scope.formData_addFile;
