@@ -964,6 +964,10 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
     }
 
     $scope.goDeviceBindProductEditor = function (rowIndex) {
+        //判断当前切换的门店是不是默认门店，是才能进行配置文件操作
+        if(!isSwitchDefaultStore()) {
+            return false;
+        }
         initalBindProduct().then(function () {
             $scope.filterBindOptions().then(function () {
                 $scope.addNew = true;

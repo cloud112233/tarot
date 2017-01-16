@@ -294,15 +294,17 @@ public class FilesController {
             if (StringUtil.isNullOrEmpty(storeIdStr) || StringUtil.equals("null", StringUtil.toLowerCase(storeIdStr))) {
                 return AjaxResponse.failed(-1, "店铺ID不能为空");
             }
-            File dest = FileUtils.getFile(DOWNLOAD_HOME, storeIdStr, File.separator + path);
+            File dest = FileUtils.getFile(DOWNLOAD_HOME+  File.separator + storeIdStr + File.separator + path);
             if (type.equals(RESOURCE_TYPE_DIR)) {
                 dest.mkdirs();
             } else if (!file.isEmpty() && type.equals(RESOURCE_TYPE_FILE)) {
 //                System.out.println(file.getFileItem().getName());
+                LOGGER.info("createResource dest.path ={} ", dest.getPath());
                 dest.mkdirs();
 //                String fileName = file.getFileItem().getName();
                 String fileName = file.getOriginalFilename();
-                dest = FileUtils.getFile(dest.getPath(), File.separator + fileName);
+                dest = FileUtils.getFile(dest.getPath()+File.separator + fileName);
+                LOGGER.info("createResource dest.path with fileName ={} ", dest.getPath());
                 if(!dest.exists()) {
                     dest.createNewFile();
                 }

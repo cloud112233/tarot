@@ -84,9 +84,10 @@ public class CustomerFilter extends HandlerInterceptorAdapter {
                 for( GrantedAuthority grantedAuthority : authorities ) {
                     result.add(grantedAuthority.getAuthority());
                 }
+                //对返回的权限列表进行排序，默认sort是按照字符串排序，非数值。可以复写compare方法来自定义排序。
+                Collections.sort(result);
             }
-            //对返回的权限列表进行排序，默认sort是按照字符串排序，非数值。可以复写compare方法来自定义排序。
-            Collections.sort(result);
+
             request.getSession().setAttribute(Constants.RESPONSE_USER_ALL_PERMISSIONS, result);
         } else {
             LOGGER.warn("User name not found " + userName);

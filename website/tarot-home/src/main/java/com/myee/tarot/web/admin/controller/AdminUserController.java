@@ -152,7 +152,7 @@ public class AdminUserController {
         } catch (Exception e) {
             LOGGER.error(e.getMessage(),e);
             resp = AjaxResponse.failed(AjaxResponse.RESPONSE_STATUS_FAIURE);
-            resp.setErrorString("有其他模块关联使用该账号，不能删除！比如资源日志。");
+            resp.setErrorString("有其他模块关联使用该账号，不能删除！比如资源日志、登录日志。");
         }
         return resp;
     }
@@ -304,7 +304,7 @@ public class AdminUserController {
         } catch (Exception e) {
             LOGGER.error(e.getMessage(),e);
             resp = AjaxResponse.failed(AjaxResponse.RESPONSE_STATUS_FAIURE);
-            resp.setErrorString("有其他模块关联使用该账号，不能删除！比如资源日志。");
+            resp.setErrorString("有其他模块关联使用该账号，不能删除！比如资源日志、登录日志。");
         }
         return resp;
     }

@@ -81,6 +81,7 @@ public class AjaxResponse implements Serializable {
     public static AjaxResponse success() {
         AjaxResponse response = new AjaxResponse();
         response.setStatus(RESPONSE_STATUS_SUCCESS);
+        response.setStatusMessage("成功");
         return response;
     }
 

@@ -179,9 +179,9 @@ function toasterManage(toaster){
         //console.log(type)
         //var respMessage = response && response != undefined ? (response.statusMessage || '') : "" ;
         if(type>0 && type<5){
-            message = (message || message != 'undefined')?message:'';
+            message = (message && message != 'undefined')?message:'';
         }else{
-            message = (message || message != 'undefined')?message:'出错啦！';
+            message = (message && message != 'undefined')?message:'出错啦！';
         }
         switch (type) {
             case 0://错误
