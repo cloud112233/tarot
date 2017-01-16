@@ -141,12 +141,11 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
     //点击上传agent错误日志时调用
     $scope.goUploadAgentErrorFile = function () {
         cResource.get('../admin/test/uploadagenterrorfile',{}, {}).then(function(resp){
-            console.log(resp.value)
             if (resp != null && resp.status == 0) {
-                $filter('toasterManage')(5, resp.statusMessage,true);
+                $filter('toasterManage')(5, resp?resp.statusMessage:'发送命令出错',true);
                 //toaster.success({body: resp.statusMessage});
             } else {
-                $filter('toasterManage')(5, resp.statusMessage,false);
+                $filter('toasterManage')(5, resp?resp.statusMessage:'发送命令出错',false);
                 //toaster.error({body: resp.statusMessage});
             }
         });

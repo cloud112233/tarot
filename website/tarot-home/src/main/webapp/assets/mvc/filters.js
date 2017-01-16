@@ -167,10 +167,14 @@ function toasterManage(toaster){
     return function(type, message,isSucc){
         //console.log(type)
         //var respMessage = response && response != undefined ? (response.statusMessage || '') : "" ;
-        message = message || '';
+        if(type>0 && type<5){
+            message = (message || message != 'undefined')?message:'';
+        }else{
+            message = (message || message != 'undefined')?message:'出错啦！';
+        }
         switch (type) {
             case 0://错误
-                toaster.error({body: "出错啦!" + message});
+                toaster.error({body:  message});
                 break;
             case 1://操作成功
                 toaster.success({body: "操作成功!"+ message});
@@ -188,7 +192,7 @@ function toasterManage(toaster){
                 isSucc?toaster.success({body: message}):toaster.error({body: message});
                 break;
             default :
-                toaster.error({body: message});
+                toaster.error({body: '出错啦!'});
         }
     }
 }
