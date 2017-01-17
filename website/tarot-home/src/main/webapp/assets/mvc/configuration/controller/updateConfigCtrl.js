@@ -883,14 +883,10 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
     $scope.bindDeviceDetail = [];
     $scope.bindDeviceIndex = false;
     $scope.searchVersion = function ( index,thisRow ) {
-        //if(!thisRow.showDetail) {
-            cResource.get('./updateConfig/getProductUsedInfo',{productUsedId:$scope.initalBindProductList[index].id}).then(function(data){
-                //console.log(data)
-                $scope.bindDeviceIndex = index;
-                $scope.bindDeviceDetail[index] = data.rows;
-            });
-        //}
-        //thisRow.showDetail=!thisRow.showDetail;
+        cResource.get('./updateConfig/getProductUsedInfo',{productUsedId:thisRow.id}).then(function(data){
+            $scope.bindDeviceIndex = index;
+            $scope.bindDeviceDetail[index] = data.rows;
+        });
     }
 
 

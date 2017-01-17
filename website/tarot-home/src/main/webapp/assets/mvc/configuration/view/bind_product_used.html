@@ -48,41 +48,41 @@
                                                                 <div>设备名:{{detail.deviceUsed.name}},主板编号:{{detail.deviceUsed.boardNo}}</div>
                                                                 <table id="details" width="45%" class="table table-bordered">
                                                                     <thead>
-                                                                    <tr>
-                                                                        <th width="10%" class="center">类型</th>
-                                                                        <th width="15%" class="center">名称</th>
-                                                                        <th width="10%" class="center">版本号</th>
-                                                                        <th width="10%" class="center">版本名称</th>
-                                                                        <th width="10%" class="center">更新日期</th>
-                                                                        <th width="80px" class="center">强制升级</th>
-                                                                    </tr>
+                                                                        <tr>
+                                                                            <th width="10%" class="center">类型</th>
+                                                                            <th width="15%" class="center">名称</th>
+                                                                            <th width="10%" class="center">版本号</th>
+                                                                            <th width="10%" class="center">版本名称</th>
+                                                                            <th width="10%" class="center">更新日期</th>
+                                                                            <th width="80px" class="center">强制升级</th>
+                                                                        </tr>
                                                                     </thead>
                                                                     <tbody>
-                                                                    <tr>
-                                                                        <td colspan="6" class="center" ng-if="bindDeviceDetail[$index].length<=0">没有查找到数据</td>
-                                                                    </tr>
-                                                                    <tr ng-repeat="v in detail.version"  ng-if="detail.code == 0 && detail.version.length > 0">
-                                                                        <td>
-                                                                            <span>{{::v.type}}</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span>{{::v.name}}</span>
-                                                                        <td>
-                                                                            <span>{{::v.versionCode}}</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span>{{::v.versionName}}</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span>{{::v.lastUpdateTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <span>{{::v.forceUpdate}}</span>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td colspan="6" class="center" ng-if="detail.code == -1">{{detail.message}}</td>
-                                                                    </tr>
+                                                                        <tr ng-if="detail.code == 0 && detail.version.length <= 0">
+                                                                            <td colspan="6" class="center">设备在线，但没有查找到数据</td>
+                                                                        </tr>
+                                                                        <tr ng-repeat="v in detail.version"  ng-if="detail.code == 0 && detail.version.length > 0">
+                                                                            <td>
+                                                                                <span>{{::v.type}}</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span>{{::v.name}}</span>
+                                                                            <td>
+                                                                                <span>{{::v.versionCode}}</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span>{{::v.versionName}}</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span>{{::v.lastUpdateTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+                                                                            </td>
+                                                                            <td>
+                                                                                <span>{{::v.forceUpdate}}</span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr ng-if="detail.code == -1">
+                                                                            <td colspan="6" class="center">{{detail.message}}</td>
+                                                                        </tr>
                                                                     </tbody>
                                                                 </table>
                                                             </div>

@@ -11,11 +11,11 @@ function branchConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
     $scope.activeTab = iDatatable;
 
 //升级配置------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    var mgrData = {
+    var mgrData = $scope.mgrData =  {
         fields: [
-            {key: 'name', type: 'c_input',className:'c_formly_line', templateOptions: {'label': '分支主标题', required: true, placeholder: '100字以内',maxlength: 100}},
-            {key: 'subName', type: 'c_input',className:'c_formly_line', templateOptions: {'label': '分支副标题', required: true, placeholder: '100字以内',maxlength: 100}},
-            {key: 'manager', type: 'c_input',className:'c_formly_line', templateOptions: {'label': '负责人', required: true, placeholder: '负责人姓名,100字以内',maxlength: 100}},
+            {key: 'name', type: 'c_input',className:'c_formly_line', templateOptions: {'label': '分支主标题', required: true, placeholder: '100字以内',maxlength: 100,isSearch:true}},
+            {key: 'subName', type: 'c_input',className:'c_formly_line', templateOptions: {'label': '分支副标题', required: true, placeholder: '100字以内',maxlength: 100,isSearch:true}},
+            {key: 'manager', type: 'c_input',className:'c_formly_line', templateOptions: {'label': '负责人', required: true, placeholder: '负责人姓名,100字以内',maxlength: 100,isSearch:true}},
             {
                 key: 'description',
                 type: 'c_textarea',

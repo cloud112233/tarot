@@ -254,6 +254,17 @@ public class UpdateConfigController {
                 boardNo = deviceUsed.getBoardNo();
                 entry.put(Constants.RESPONSE_DEVICE_USED,objectToEntry(deviceUsed));
 
+
+                /**测试代码开始------------------------------------------------------
+                 * 测试用代码，为了测试前端页面当version为空数组时显示是否正常
+                 */
+                /*entry.put(Constants.RESPONSE_VERSION, new JSONArray());
+                entry.put(Constants.RESPONSE_CODE,0);
+                entry.put(Constants.RESPONSE_MESSAGE,"查询成功");
+                resp.addDataEntry(entry);
+                continue;*/
+                //测试代码结束------------------------------------------------------
+
                 if(!map.containsKey(boardNo)) {
                     entry.put(Constants.RESPONSE_CODE,-1);
                     entry.put(Constants.RESPONSE_MESSAGE,Constants.MESSAGE_DEVICE+Constants.MESSAGE_OFFLINE);
