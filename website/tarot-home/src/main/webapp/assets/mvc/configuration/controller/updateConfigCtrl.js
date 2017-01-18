@@ -959,6 +959,12 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
         return deferred.promise;
     }
 
+    //查看版本展开初始化[ngtable数据，暂做监听处理，可优化]
+    $scope.$watch('tableBindOpts.data',function(newValue,oldValue){
+        $scope.bindDeviceDetail = [];
+        $scope.bindDeviceIndex = false;
+    });
+
     $scope.goDeviceBindProductEditor = function (rowIndex) {
         //判断当前切换的门店是不是默认门店，是才能进行配置文件操作
         if(!isSwitchDefaultStore()) {
