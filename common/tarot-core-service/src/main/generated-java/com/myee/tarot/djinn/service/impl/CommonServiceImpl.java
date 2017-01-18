@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.myee.djinn.dto.NotificationDTO;
 import com.myee.djinn.dto.ShopDetail;
 import com.myee.djinn.dto.VersionInfo;
+import com.myee.djinn.dto.enums.RequestType;
 import com.myee.djinn.rpc.RemoteException;
 import com.myee.djinn.server.operations.CommonService;
 import com.myee.tarot.admin.domain.AdminUser;
@@ -227,6 +228,18 @@ public class CommonServiceImpl implements CommonService, TransactionalAspectAwar
 		AjaxResponse response = emailSenderUtil.send(FROM, TO, subject, sb.toString());
 		LOG.info(" sendEmail result = {}", response.getStatus());
 		return response.getStatus() == 0;
+	}
+
+	/**
+	 * 接收终端发送的请求，根据RequestType 进行处理
+	 * @param requestType
+	 * @param jsonArgs
+	 * @return
+	 * @throws RemoteException
+	 */
+	@Override
+	public String sendRequest(RequestType requestType, String jsonArgs) throws RemoteException {
+		return null;
 	}
 
 	private VersionInfo readfile(File file) {
