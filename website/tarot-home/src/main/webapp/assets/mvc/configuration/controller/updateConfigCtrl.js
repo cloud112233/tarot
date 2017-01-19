@@ -195,7 +195,6 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
             $scope.formDataUpdateConfig.model.attributes = [];
             $scope.formDataUpdateConfig.model.attrTemp = [];
             $scope.createTimeMills = $scope.formDataUpdateConfig.model.createTime;
-            $scope.createTimeStamp = $filter('dateFormatter')($scope.createTimeMills,'yyyyMMddHHmmss');
             $scope.rowIndex = rowIndex;
 
             //读取配置文件
@@ -211,10 +210,19 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
         } else {
             $scope.rowIndex = -1;
             $scope.createTimeMills = new Date().getTime();
-            $scope.createTimeStamp = $filter('dateFormatter')($scope.createTimeMills,'yyyyMMddHHmmss');
         }
+        $scope.createTimeStamp = calTimePath($scope.createTimeMills);
+        //console.log($scope.createTimeStamp)
         $scope.activeTab = iConfig;
     };
+
+    //根据时间计算后台要存储的路径
+    function calTimePath(time) {
+        return $filter('dateFormatter')(time,'yyyy') + '/' +
+            $filter('dateFormatter')(time,'MM') + '/' +
+            $filter('dateFormatter')(time,'dd')+ '/' +
+            $filter('dateFormatter')(time,'HHmmss');
+    }
 
     //进入配置编辑页面的初始化参数
     function initialConfig() {
@@ -513,7 +521,7 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
                 } else {
                     if( res.rows[0].fileIsExist ) {
                         $timeout(function () {
-                            $filter('toasterManage')(5, fileName + "文件已存在，请先在资源管理中删除旧升级包文件!",false);
+                            $filter('toasterManage')(5, pathNoFileName + '/' +fileName + "文件已存在，请先在资源管理中删除旧升级包文件!",false);
                         }, 0);
                         //清空文件input
                         clearInputFile(index);

@@ -34,15 +34,15 @@ public class BranchConfigDaoImpl extends GenericEntityDaoImpl<Long, BranchConfig
 			JSONObject map = JSON.parseObject(whereRequest.getQueryObj());
 			Object obj = map.get(Constants.SEARCH_OPTION_NAME);
 			if (obj != null && !StringUtil.isBlank(obj.toString())) {
-				query.where(qBranchConfig.name.eq(obj.toString()));
+				query.where(qBranchConfig.name.like("%" + obj.toString() + "%"));
 			}
 			obj = map.get(Constants.SEARCH_OPTION_SUB_NAME);
 			if (obj != null && !StringUtil.isBlank(obj.toString())) {
-				query.where(qBranchConfig.subName.eq(obj.toString()));
+				query.where(qBranchConfig.subName.like("%" + obj.toString() + "%"));
 			}
 			obj = map.get(Constants.SEARCH_OPTION_MANAGER);
 			if (obj != null && !StringUtil.isBlank(obj.toString())) {
-				query.where(qBranchConfig.manager.eq(obj.toString()));
+				query.where(qBranchConfig.manager.like("%" + obj.toString() + "%"));
 			}
 			//TODO  临时处理，前端未找到好的处理方式
 			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
