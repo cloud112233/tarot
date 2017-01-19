@@ -239,7 +239,7 @@ public class CommonServiceImpl implements CommonService, TransactionalAspectAwar
 	 */
 	@Override
 	public String sendRequest(RequestType requestType, String jsonArgs) throws RemoteException {
-		return null;
+		return "测试接口连通性";
 	}
 
 	private VersionInfo readfile(File file) {
