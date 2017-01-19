@@ -124,13 +124,16 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
     //设置可操作门店相关-----------------------------------------------------------------------------------------
     //绑定相关参数
     var vm = $scope.showCase = {};
-    vm.selected = [];
+    vm.selected = [];//给绑定门店用
+    vm.roleSelected = [];//给绑定角色用
     vm.selectAll = false;
     vm.toggleAll = toggleAll;
     vm.toggleOne = toggleOne;
     $scope.thisUserDefaultStoreName = '';//当前用户所属门店，绑定时排除
 
     function toggleAll(selectAll, selectedItems) {
+        //console.log(selectAll)
+        //console.log(selectedItems)
         for (var id in selectedItems) {
             if (selectedItems.hasOwnProperty(id)) {
                 selectedItems[id] = selectAll;
@@ -175,15 +178,13 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
         } else {//第一次需要从后台读取列表
             return cResource.get('./merchantStore/getAllStoreExceptSelf').then(function(data){
                 //初始化showCase.selected数组，给全选框用，让它知道应该全选哪些
-                //var result = [];
-                //angular.forEach(data.rows, function (indexData, index, array) {
-                //    //indexData等价于array[index]
-                //    $scope.showCase.selected[indexData.id] = false;
-                //    if( indexData.name != $scope.thisUserDefaultStoreName ) {//排除当前用户所属门店
-                //        result.push(indexData);
-                //    }
-                //});
-                $scope.initalBindProductList = data.rows;
+                var result = [];
+                angular.forEach(data.rows, function (indexData, index, array) {
+                    //indexData等价于array[index]
+                    $scope.showCase.selected[indexData.id] = false;
+                    result.push(indexData);
+                });
+                $scope.initalBindProductList = result;
                 return $scope.initalBindProductList;
             });
         }
@@ -337,12 +338,12 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
 
                     //根据已关联的产品去勾选对应的checkbox
                     $scope.showCase.selectAll = false;
-                    $scope.showCase.toggleAll(false, $scope.showCase.selected);//先取消所有checkbox的勾选状态
+                    $scope.showCase.toggleAll(false, $scope.showCase.roleSelected);//先取消所有checkbox的勾选状态
                     for (var value in data.roleList) {
                         //console.log("value"+value)
                         var roleId = data.roleList[value].id;
-                        $scope.showCase.selected[roleId] = true;
-                        $scope.showCase.toggleOne($scope.showCase.selected);//判断全选框是否要被checked
+                        $scope.showCase.roleSelected[roleId] = true;
+                        $scope.showCase.toggleOne($scope.showCase.roleSelected);//判断全选框是否要被checked
                     }
 
                     $scope.addNew = false;
@@ -366,7 +367,7 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
                 var result = []; //排除当前用户所属门店
                 angular.forEach(data.rows, function (indexData, index, array) {
                     //indexData等价于array[index]
-                    $scope.showCase.selected[indexData.id] = false;
+                    $scope.showCase.roleSelected[indexData.id] = false;
                     if( indexData.name != $scope.thisUserDefaultRoleName ) {
                         result.push(indexData);
                     }
@@ -379,15 +380,15 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
 
     $scope.filterRoleBindOptions = function () {
         var deferred = $q.defer();
-        //tables获取数据,获取可绑定的所有门店
-        $scope.tableBindOpts = new NgTableParams({}, {
+        //tables获取数据,获取可绑定的所有角色
+        $scope.tableBindRoleOpts = new NgTableParams({}, {
             counts: [],
             dataset: $filter('filter')($scope.initalBindRoleList, $scope.showCase.nameFilter || "")//根据搜索字段过滤数组中数据
         });
         $scope.loadByInit = true;
-        $scope.tableBindOpts.page(1);
-        $scope.tableBindOpts.reload();
-        deferred.resolve($scope.tableBindOpts);
+        $scope.tableBindRoleOpts.page(1);
+        $scope.tableBindRoleOpts.reload();
+        deferred.resolve($scope.tableBindRoleOpts);
         return deferred.promise;
     }
 
@@ -398,7 +399,7 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
     $scope.processBindRoleSubmit = function () {
         var result = [];
 
-        angular.forEach($scope.showCase.selected, function (data, index, array) {
+        angular.forEach($scope.showCase.roleSelected, function (data, index, array) {
             //data等价于array[index]
             if (data == true) {
                 result.push(index);
@@ -411,7 +412,7 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
         }, {}).then(function(resp){
             //用js离线刷新表格数据
             $scope.tableOpts.data[$scope.showCase.currentRowIndex].roleList = [];//先清空
-            angular.forEach($scope.showCase.selected, function (data, index, array) {
+            angular.forEach($scope.showCase.roleSelected, function (data, index, array) {
                 //data等价于array[index]
                 if (data == true) {
                     var length = $scope.initalBindRoleList.length;

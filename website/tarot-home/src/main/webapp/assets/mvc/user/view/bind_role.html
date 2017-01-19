@@ -13,10 +13,10 @@
                                     <p class="text-danger">请选择该用户可操作角色:</p>
                                     <!--<table id="bindProduct" datatable="" dt-options="showCase.dtBindOptions" dt-instance="showCase.dtBindInstance" dt-columns="showCase.dtBindColumns" class="table table-striped table-bordered table-hover"></table>-->
                                     <p><input type="text" ng-keyup="filterRoleBindOptions()" placeholder="输入关键字以筛选" ng-model="showCase.nameFilter" class="form-control ng-pristine ng-valid ng-empty ng-touched"></p>
-                                    <table id="example" ng-table="tableBindOpts" class="table table-condensed table-striped table-bordered">
+                                    <table id="example" ng-table="tableBindRoleOpts" class="table table-condensed table-striped table-bordered">
                                         <thead>
                                         <tr>
-                                            <th width="5%" class="center"><input type="checkbox" ng-model="showCase.selectAll" ng-click="showCase.toggleAll(showCase.selectAll, showCase.selected)"></th>
+                                            <th width="5%" class="center"><input type="checkbox" ng-model="showCase.selectAll" ng-click="showCase.toggleAll(showCase.selectAll, showCase.roleSelected)"></th>
                                             <th width="15%" ng-show="false">id</th>
                                             <th width="15%" class="center">角色名称</th>
                                             <th width="15%" class="center">角色描述</th>
@@ -28,7 +28,7 @@
                                         </tr>
                                         <tr ng-repeat="row in $data">
                                             <!--<tr ng-repeat="row in $data | filter : nameFilter" ng-if="showCase.selected[row.id]">-->
-                                            <td class="center"><input type="checkbox" ng-model="showCase.selected[row.id]" ng-click="showCase.toggleOne(showCase.selected)"></td>
+                                            <td class="center"><input type="checkbox" ng-model="showCase.roleSelected[row.id]" ng-click="showCase.toggleOne(showCase.roleSelected)"></td>
                                             <td ng-show="false">{{::row.id}}</td>
                                             <td>{{::row.roleName}}</td>
                                             <td>{{::row.description}}</td>
