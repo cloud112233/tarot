@@ -108,6 +108,7 @@ function merchantShopCtrl($scope, Constants, cTables, cfromly, cResource, NgTabl
         }
     };
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 
     $scope.goEditorCustom = function (rowIndex) {
         $scope.goEditor(rowIndex);

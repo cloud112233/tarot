@@ -117,6 +117,7 @@ function receiptPrintedCtrl($scope, cResource, Constants, cTables, cfromly, NgTa
     }
 
     cTables.initNgMgrCtrl(mgrModuleNameData, $scope);
+    cTables.cfromlyData(mgrModuleNameData.fields);
 
     function initalBindProduct() {
         if ($scope.initalBindProductList) {//如果已经从后台读取过数据了，则不再访问后台获取列表

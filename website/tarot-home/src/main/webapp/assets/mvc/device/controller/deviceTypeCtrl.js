@@ -37,6 +37,7 @@ function deviceTypeCtrl($scope, Constants, cTables, cfromly, cAlerts) {
         }
     };
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
     cTables.initAttrNgMgr(mgrData, $scope);
 
     $scope.tips = "*设备类型所有门店通用，不受切换门店影响";

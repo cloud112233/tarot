@@ -23,5 +23,5 @@ function mailContactConfigCtrl($scope, Constants, cTables, cfromly, cAlerts) {
         }
     };
     cTables.initNgMgrCtrl(mgrData, $scope);
-
+    cTables.cfromlyData(mgrData.fields);
 }

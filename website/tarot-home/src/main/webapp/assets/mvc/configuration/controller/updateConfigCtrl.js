@@ -171,6 +171,7 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
     }
 
     cTables.initNgMgrCtrl(mgrUpdateConfigData, $scope);
+    cTables.cfromlyData(mgrUpdateConfigData.fields);
 
     //判断当前切换的门店是不是默认门店，是才能进行配置文件操作
     function isSwitchDefaultStore () {

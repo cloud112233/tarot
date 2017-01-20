@@ -82,6 +82,7 @@ function merchantCtrl($scope, Constants, cTables, cfromly, cResource,$filter,$ti
         }
     };
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 
     $scope.thisMerchantId = Constants.thisMerchantStore.merchant.id;
 

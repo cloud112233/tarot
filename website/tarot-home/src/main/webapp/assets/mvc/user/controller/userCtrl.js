@@ -57,6 +57,7 @@ function userMgrCtrl($scope, cTables, cfromly, $rootScope, $q, cResource, NgTabl
     };
 
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
     $scope.tips = "*新建的管理员账号将绑定当前所切换的门店";
     $scope.userName = $rootScope.baseUrl.userName;
 

@@ -137,6 +137,17 @@ function cTablesService(NgTableParams, cAlerts,$timeout,cResource) {
         };
     }
 
+    //缓存fromly的数据
+    var cfromlyData_;
+    vm.cfromlyData = function(res){
+        if(res){
+            cfromlyData_ = res;
+            return;
+        }else{
+            return cfromlyData_
+        }
+    }
+
     //通用fromly 通用ngtable的操作
     vm.initNgMgrCtrl = function (mgrOpts, scope) {
         scope.toastError = 0, scope.toastOperationSucc = 1, scope.toastDeleteSucc = 2, scope.toastSearchSucc = 3, scope.toastUploadSucc = 4,scope.customDefined = 5;

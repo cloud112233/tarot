@@ -30,4 +30,5 @@ function tableZoneMgrCtrl($scope, cTables,cfromly) {
     };
 
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 }

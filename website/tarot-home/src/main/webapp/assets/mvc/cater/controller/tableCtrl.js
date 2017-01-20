@@ -374,6 +374,7 @@ function tableMgrCtrl($scope, cResource, cTables, cfromly, Constants, NgTablePar
     }
 
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 
     $scope.goEditorCustom = function (rowIndex) {
         $scope.goEditor(rowIndex);

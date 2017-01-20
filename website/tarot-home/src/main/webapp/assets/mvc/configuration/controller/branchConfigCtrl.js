@@ -31,6 +31,7 @@ function branchConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
     };
 
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 
     //formly提交
     $scope.processSubmit = function () {

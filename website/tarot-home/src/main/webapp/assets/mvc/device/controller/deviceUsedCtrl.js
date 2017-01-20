@@ -258,6 +258,7 @@ function deviceUsedCtrl($scope, cResource, Constants, cTables, cfromly, NgTableP
         }
     };
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 
     $scope.goEditorCustom = function (rowIndex) {
         $scope.goEditor(rowIndex);

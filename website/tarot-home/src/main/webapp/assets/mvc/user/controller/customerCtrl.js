@@ -52,6 +52,7 @@ function customerMgrCtrl($scope, cTables, cResource,$filter,$q,cfromly,NgTablePa
     };
 
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 
     $scope.tips = "*请切换不同门店，来管理不同门店的普通用户账号";
 

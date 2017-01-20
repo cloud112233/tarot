@@ -24,6 +24,7 @@ function onlineDevice($scope, cTables, cfromly) {
     };
 
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
     $scope.where.queryObj={};
 
 }

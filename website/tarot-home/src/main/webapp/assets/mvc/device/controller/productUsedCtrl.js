@@ -255,6 +255,8 @@ function productUsedCtrl($scope, cResource, Constants, cTables, cfromly, NgTable
         }
     };
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
+
 
     $scope.goEditorCustom = function (rowIndex) {
         $scope.goEditor(rowIndex);

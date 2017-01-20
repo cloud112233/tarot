@@ -42,6 +42,7 @@ function adminRoleMgrCtrl($scope, cTables,cfromly, cResource, $filter,$q) {
     };
 
     cTables.initNgMgrCtrl(mgrOpts, $scope);
+    cTables.cfromlyData(mgrOpts.fields);
     $scope.tips = "*管理所有角色，不受切换门店影响";
 
     //打开分配权限界面

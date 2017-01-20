@@ -165,6 +165,7 @@ function clientPrizeCtrl($scope, Constants,cTables,cfromly,toaster,cResource,$fi
         }
     };
     cTables.initNgMgrCtrl(mgrData, $scope);
+    cTables.cfromlyData(mgrData.fields);
 
     $scope.processSubmit = function () {
         var formly = $scope.formData;
