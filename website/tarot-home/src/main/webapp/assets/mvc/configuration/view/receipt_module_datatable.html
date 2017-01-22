@@ -24,7 +24,10 @@
                         <tr ng-repeat="row in $data">
                             <td>{{::row.moduleName}}</td>
                             <td>{{::row.receiptTypeText}}</td>
-                            <td>{{::row.description}}</td>
+                            <td>
+                                <popover content="{{row.description}}" position="bottom" class="cropLongString-320"></popover>
+                                <!--{{::row.description}}-->
+                            </td>
                             <td>{{::row.updateTime}}</td>
                             <td class="center works">
                                 <table-rights tooltip="{{lang_zh.bindProduct}}" ng-click="goDeviceBindProductEditor($index)" type="u" tclass="fa-bars"></table-rights>

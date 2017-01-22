@@ -37,7 +37,10 @@
                             <td>{{::row.deskId }}</td>
                             <td>{{::row.checkDate | date:'yyyy-MM-dd HH:mm'}}</td>
                             <td>{{::row.prizeName}}</td>
-                            <td><div class="cropLongString-120">{{::row.prizeDescription}}</div></td>
+                            <td>
+                                <!--<div class="cropLongString-120">{{::row.prizeDescription}}</div>-->
+                                <popover content="{{row.prizeDescription}}" position="bottom" class="cropLongString-120"></popover>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

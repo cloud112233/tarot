@@ -575,7 +575,7 @@ function addRights($filter){
 * */
 function popover(){
     return {
-        template:'<span popover-placement="{{position}}" popover-trigger="\'mouseenter\'" uib-popover="{{content}}" style="display: inline-block;">{{content}}</span>',
+        template:'<span popover-placement="{{position}}" popover-trigger="\'outsideClick\'" uib-popover="{{content}}" style="display: inline-block;">{{content}}</span>',
         replace: true,
         scope: {
             "content": "@content",

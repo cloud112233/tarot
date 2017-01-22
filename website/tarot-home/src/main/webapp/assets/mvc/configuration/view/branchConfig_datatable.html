@@ -28,7 +28,10 @@
                             <td>{{::row.name}}</td>
                             <td>{{::row.subName}}</td>
                             <td>{{::row.manager}}</td>
-                            <td><div class="cropLongString-220">{{::row.description}}</div></td>
+                            <td>
+                                <popover content="{{row.description}}" position="bottom" class="cropLongString-220"></popover>
+                                <!--<div class="cropLongString-220">{{::row.description}}</div>-->
+                            </td>
                             <td class="center">{{::row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                             <td class="center works">
                                 <table-rights tooltip="{{lang_zh.edit}}" ng-click="goEditor($index)" type="u" tclass="fa-pencil"></table-rights>

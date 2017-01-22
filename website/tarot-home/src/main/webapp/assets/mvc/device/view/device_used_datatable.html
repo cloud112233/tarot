@@ -29,7 +29,10 @@
                             <td>{{::row.boardNo}}</td>
                             <td>{{::row.deviceNum}}</td>
                             <td>{{::row.phone}}</td>
-                            <td><div class="cropLongString-220">{{::row.description}}</div></td>
+                            <td>
+                                <popover content="{{row.description}}" position="bottom" class="cropLongString-220"></popover>
+                                <!--<div class="cropLongString-220">{{::row.description}}</div>-->
+                            </td>
                             <td>{{::row.device.name}}</td>
                             <td class="center works">
                                 <table-rights tooltip="{{lang_zh.bindProduct}}" ng-click="goDeviceBindProductEditor($index)" type="u" tclass="fa-link"></table-rights>

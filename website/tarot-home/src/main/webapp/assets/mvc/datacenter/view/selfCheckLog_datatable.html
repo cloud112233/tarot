@@ -51,7 +51,10 @@
                             </td>
                             <td>{{::row.moduleName}}</td>
                             <td>{{::row.functionName}}</td>
-                            <td><div class="cropLongString-220">{{::row.data}}</div></td>
+                            <td>
+                                <popover content="{{row.data}}" position="bottom" class="cropLongString-220"></popover>
+                                <!--<div class="cropLongString-220">{{::row.data}}</div>-->
+                            </td>
                             <td>{{::row.length}}</td>
                             <td>{{::row.time}}</td>
                         </tr>

@@ -10546,3 +10546,6 @@ ul.form-inline span {vertical-align: middle;}
 #denied img {}
 #denied span {display: block;text-align: center;width: 100%;margin-top: 100px}
 #denied a {background: #eee; color: #999; padding: 12px 40px; border-radius: 5px;font-size: 17px}
+
+/*popover*/
+.popover-content {  word-break: break-word;  }

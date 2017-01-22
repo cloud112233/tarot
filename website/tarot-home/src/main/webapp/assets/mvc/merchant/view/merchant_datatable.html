@@ -30,7 +30,10 @@
                             <td class="center">
                                 <img height="30px" ng-src="{{::row.logo | myeeUrlImg }}"/>
                             </td>
-                            <td><div class="cropLongString-320">{{::row.description}}</div></td>
+                            <td>
+                                <popover content="{{row.description}}" position="bottom" class="cropLongString-320"></popover>
+                                <!--<div class="cropLongString-320">{{::row.description}}</div>-->
+                            </td>
                             <td class="center works">
                                 <table-rights tooltip="{{lang_zh.edit}}" ng-click="goEditor($index)" type="u" tclass="fa-pencil"></table-rights>
                                 <table-rights ng-if="row.id != thisMerchantId" tooltip="{{lang_zh.delete}}" ng-click="doDelete($index)" type="d" tclass="fa-trash-o"></table-rights>

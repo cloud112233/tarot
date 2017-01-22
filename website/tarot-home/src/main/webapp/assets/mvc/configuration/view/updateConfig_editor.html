@@ -46,11 +46,13 @@
                                 </div>
                             </td>
                             <td>
-                                <span ng-switch-default>{{::attr.version}}</span>
+                                <span ng-switch-default><popover content="{{attr.version}}" position="top" class="cropLongString-120"></popover></span>
                                 <div class="controls" ng-switch-when="true">
                                     <input ng-if="formDataUpdateConfig.model.type == 'module'" type="text" name="attrVersion" ng-model="formDataUpdateConfig.model.attrTemp[$index].version" placeholder="版本号" class="editable-input form-control input-sm" required/>
                                     <input ng-if="formDataUpdateConfig.model.type != 'module' && formDataUpdateConfig.model.type != 'self_design_pad'"type="number" name="attrVersion" ng-model="formDataUpdateConfig.model.attrTemp[$index].version" placeholder="纯数字" class="editable-input form-control input-sm" required/>
-                                    <span ng-if="formDataUpdateConfig.model.type == 'self_design_pad'">{{attr.version?attr.version:"自动生成"}}</span>
+                                    <span ng-if="formDataUpdateConfig.model.type == 'self_design_pad'">
+                                        <popover content="{{attr.version?attr.version:'自动生成'}}" position="top" class="cropLongString"></popover>
+                                    </span>
                                 </div>
                             </td>
                             <td>
@@ -81,11 +83,12 @@
                                 <!--</div>-->
                             <!--</td>-->
                             <td>
-                                <copy-to-clip ng-model="attr.md5" content="attr.md5" style="float: left"></copy-to-clip>
+                                <popover content="{{attr.md5}}" position="top" class="cropLongString"></popover>
+                                <!--<copy-to-clip ng-model="attr.md5" content="attr.md5" style="float: left"></copy-to-clip>-->
                                 <div ng-switch-default>
-                                    <br>
+                                    <!--<br>-->
                                     <i class="btn btn-sm btn-success" ng-click="showMd5Input(attr)">校验</i>
-                                    <br>
+                                    <!--<br>-->
                                     <input style="float: left;" ng-if="attr.md5InputValid" ng-model="attr.md5InputContent" type="text" class="editable-input form-control input-sm inputMd5"/>
                                     <span style="float: right;">
                                         <i class="fa fa-times-circle checkMd5MarkWrong" aria-hidden="true" ng-show="attr.md5InputValid && attr.md5InputContent != null && attr.md5InputContent.length != 0 && attr.md5InputContent!=attr.md5"></i>
@@ -99,7 +102,8 @@
                                 </div>
                             </td>
                             <td>
-                                <copy-to-clip content="attr.web"></copy-to-clip>
+                                <popover content="{{attr.web}}" position="bottom" class="cropLongString"></popover>
+                                <!--<copy-to-clip content="attr.web"></copy-to-clip>-->
                                 <div class="controls cropLongString" ng-switch-when="true">
                                     <span>
                                         {{attr.web?"":"自动生成"}}
