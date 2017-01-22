@@ -55,7 +55,7 @@
                         </tr>
                         <tr ng-repeat-start="row in $data">
                             <td>{{::row.branchConfig.name}}-{{::row.branchConfig.subName}}</td>
-                            <td>{{::row.name}}</td>
+                            <td><popover content="{{row.name}}" position="bottom" class="cropLongString-220"></popover></td>
                             <td><div class="cropLongString-220">{{::row.description}}</div></td>
                             <td>{{::row.typeName}}</td>
                             <td>{{::row.seeTypeName}}</td>

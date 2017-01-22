@@ -569,7 +569,23 @@ function addRights($filter){
     }
 }
 
-
+/*
+* popover
+* 指向：'top','top-left', 'top-right', 'bottom', 'bottom-left', 'bottom-right', 'left', 'left-top','left-bottom', 'right', 'right-top', 'right-bottom'
+* */
+function popover(){
+    return {
+        template:'<span popover-placement="{{position}}" popover-trigger="\'mouseenter\'" uib-popover="{{content}}" style="display: inline-block;">{{content}}</span>',
+        replace: true,
+        scope: {
+            "content": "@content",
+            "position": "@position"
+        },
+        link:function(scope,ele,attr){
+            //mouseenter
+        }
+    }
+}
 
 /**
  *
@@ -593,4 +609,5 @@ angular
     .directive('advancedSearch', advancedSearch)
     .directive('tableRights', tableRights)
     .directive('addRights', addRights)
-    .directive('cameraVideo', cameraVideo);
+    .directive('cameraVideo', cameraVideo)
+    .directive('popover', popover);
