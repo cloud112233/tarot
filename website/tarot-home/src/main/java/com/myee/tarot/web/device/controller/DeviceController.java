@@ -497,6 +497,7 @@ public class DeviceController {
         }
     }
 
+    //显示在线设备接口
 	@RequestMapping(value = {"admin/device/used/listOnlineDevice"}, method = RequestMethod.GET)
 	@ResponseBody
 	public AjaxPageableResponse listOnlineDevice( HttpServletRequest request, WhereRequest whereRequest) {

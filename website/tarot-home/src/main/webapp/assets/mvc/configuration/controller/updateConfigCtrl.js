@@ -563,7 +563,7 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
         else if( (!_file || !$filter('isHasProp')(_file)/*_file == {}*/)
             && !$filter('isNullOrEmptyString')(thisRowTemp.md5)
             && !$filter('isNullOrEmptyString')(thisRowTemp.web)) {
-            console.log(323)
+            //console.log(323)
             //给thisRowTemp的name赋初值
             thisRowTemp.name = thisRowTemp.name? thisRowTemp.name : $scope.formDataUpdateConfig.model.attributes[index].name;
 
@@ -817,22 +817,29 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
     //根据文件名从对照表查出模块名称
     function calNameByFileName(fileName,thisRow,index) {
         var resultName = undefined;
-        var positionFind = -1;
+        //var positionFind = -1;
         angular.forEach( autoNameCheckList, function (indexData, index, array) {
             //resultName有值了，就停止循环
             if( resultName && resultName != ''){
                 return false;
             }
-            positionFind = fileName.toLowerCase().indexOf( indexData.key.toLowerCase() );//变小写然后查找
+            //positionFind = fileName.toLowerCase().indexOf( indexData.key.toLowerCase() );//变小写然后查找
             //console.log(positionFind)
             //indexData等价于array[index]
             var type = $scope.formDataUpdateConfig.model.type;
+
+            //console.log($filter('regexMatch')(fileName.toLowerCase() ,'^' + indexData.key.toLowerCase()))
+            //console.log($filter('regexMatch')(fileName.toLowerCase() ,'[a-zA-Z]{1}[0-9]{3}' + indexData.key.toLowerCase()))
             if ( indexData.type == type) {
                 if( ( (type == $scope.mgrUpdateConfigData.constant.BASE_INFO_APK.TYPE  //应用命名规则Artemis_**
                         || type == $scope.mgrUpdateConfigData.constant.BASE_INFO_AGENT.TYPE
-                        || type == $scope.mgrUpdateConfigData.constant.BASE_INFO_AGENT_PATCH.TYPE)  && positionFind == 0)
+                        || type == $scope.mgrUpdateConfigData.constant.BASE_INFO_AGENT_PATCH.TYPE)
+                        //&& positionFind == 0)
+                        && $filter('regexMatch')(fileName.toLowerCase() ,'^' + indexData.key.toLowerCase()))
                     || (type == $scope.mgrUpdateConfigData.constant.BASE_INFO_MODULE.TYPE
-                        && (positionFind == 4 || positionFind == 0) )//模块命名规则C001M08**,或者一个特殊的starline
+                        //&& (positionFind == 4 || positionFind == 0) )//模块命名规则C001M08**,或者一个特殊的starline
+                        && ($filter('regexMatch')(fileName.toLowerCase() ,'[a-zA-Z]{1}[0-9]{3}' + indexData.key.toLowerCase())
+                            || $filter('regexMatch')(fileName.toLowerCase() ,'^' + indexData.key.toLowerCase())) )//模块命名规则C001M08**,或者一个特殊的starline
                 ) {
                     resultName = indexData.name;
                 }
@@ -858,9 +865,13 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
     //校验平板升级文件名，例如Cooky-C001M01A001-RK3288_v2-20160804ota.zip
     function checkBoardUpdateFileNameOK(fileName){
         var lowerFileName = fileName.toLowerCase();
-        var versionSplit = lowerFileName.split("-");
-        //console.log(versionSplit)
         var ok = true;
+        if(!$filter('regexMatch')(lowerFileName ,'^[a-zA-z0-9]*-c[0-9]{3}m[0-9]{2}a[0-9]{3}-[a-zA-z0-9_]*-[0-9]{8}ota[a-zA-z0-9]*')) {
+            ok = false;
+        }
+
+        /*var versionSplit = lowerFileName.split("-");
+        //console.log(versionSplit)
         if (versionSplit.length != 4) {
             ok = false;
         }
@@ -877,7 +888,7 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
         }
         else if(time.indexOf('ota') != 8){
             ok = false;
-        }
+        }*/
         if( !ok ){
             $timeout(function () {
                 $filter('toasterManage')(5,"请选择自研平板升级文件！例如："

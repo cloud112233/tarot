@@ -54,7 +54,7 @@
                                                                             <th width="20%" class="center">版本号</th>
                                                                             <th class="center">版本名称</th>
                                                                             <th width="15%" class="center">更新日期</th>
-                                                                            <th width="80px" class="center">强制升级</th>
+                                                                            <!--<th width="80px" class="center">强制升级</th>-->
                                                                         </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -76,9 +76,9 @@
                                                                             <td>
                                                                                 <span>{{::v.lastUpdateTime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
                                                                             </td>
-                                                                            <td>
-                                                                                <span>{{::v.forceUpdate}}</span>
-                                                                            </td>
+                                                                            <!--<td>-->
+                                                                                <!--<span>{{::v.forceUpdate}}</span>-->
+                                                                            <!--</td>-->
                                                                         </tr>
                                                                         <tr ng-if="detail.code == -1">
                                                                             <td colspan="6" class="center">{{detail.message}}</td>

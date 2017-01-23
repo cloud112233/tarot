@@ -152,7 +152,9 @@ public class CommonServiceImpl implements CommonService, TransactionalAspectAwar
 	public ShopDetail ownerShop(String consistentId) throws RemoteException {
 		LOG.info(" ownerShop consistentId = {}", consistentId);
 		DeviceUsed deviceUsed = deviceUsedService.getByBoardNo(consistentId);
-		MerchantStore merchantStore = deviceUsed.getStore();
+		ShopDetail shopDetail = new ShopDetail();
+		if(deviceUsed != null) {
+			MerchantStore merchantStore = deviceUsed.getStore();
 //		List<TableType> tableTypeList = tableTypeService.listByStore(merchantStore.getId());
 //		for (TableType tableType : tableTypeList) {
 //			tableType.setStore(null);
@@ -162,9 +164,11 @@ public class CommonServiceImpl implements CommonService, TransactionalAspectAwar
 //			map.put("shopInfo", JSON.toJSONString(merchantStore));
 //			map.put("tableType", JSON.toJSONString(tableTypeList));
 //		}
-		ShopDetail shopDetail = toDto(merchantStore);
-		shopDetail.setOpeningTime(toHourString(merchantStore.getTimeOpen()) + "~" + toHourString(merchantStore.getTimeClose()));
-		LOG.info(" ownerShop shopDetail = {}", JSON.toJSONString(shopDetail));
+			shopDetail = toDto(merchantStore);
+			shopDetail.setOpeningTime(toHourString(merchantStore.getTimeOpen()) + "~" + toHourString(merchantStore.getTimeClose()));
+			LOG.info(" ownerShop shopDetail = {}", JSON.toJSONString(shopDetail));
+		}
+
 		return shopDetail;
 	}
 

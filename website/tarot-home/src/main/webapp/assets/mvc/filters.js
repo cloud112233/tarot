@@ -96,7 +96,7 @@ function regexMatch() {
         if(str.match(pattern)){
             return true;
         }else {
-            return false
+            return false;
         }
     }
 }
