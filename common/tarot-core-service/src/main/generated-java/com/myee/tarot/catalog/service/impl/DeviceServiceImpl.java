@@ -1,6 +1,7 @@
 package com.myee.tarot.catalog.service.impl;
 
 import com.myee.tarot.catalog.domain.Device;
+import com.myee.tarot.catalog.service.DeviceAttributeService;
 import com.myee.tarot.core.service.GenericEntityServiceImpl;
 import com.myee.tarot.core.util.PageRequest;
 import com.myee.tarot.core.util.PageResult;
@@ -17,7 +18,8 @@ import org.springframework.stereotype.Service;
 public class DeviceServiceImpl extends GenericEntityServiceImpl<Long, Device>implements DeviceService{
 
     protected DeviceDao deviceDao;
-
+    @Autowired
+    private DeviceAttributeService deviceAttributeService;
     @Autowired
     public DeviceServiceImpl(DeviceDao deviceDao) {
         super(deviceDao);
@@ -27,5 +29,11 @@ public class DeviceServiceImpl extends GenericEntityServiceImpl<Long, Device>imp
     @Override
     public PageResult<Device> pageList(WhereRequest whereRequest) {
         return deviceDao.pageList(whereRequest);
+    }
+
+    @Override
+    public void deleteWithAttr(Device device) {
+        deviceAttributeService.deleteByDeviceId(device.getId());
+        deviceDao.delete(device);
     }
 }
