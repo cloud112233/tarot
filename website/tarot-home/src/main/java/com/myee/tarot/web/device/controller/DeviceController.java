@@ -153,10 +153,11 @@ public class DeviceController {
                 return resp;
             }
             //先手动删除所有该对象关联的属性，再删除该对象。因为关联关系是属性多对一该对象，关联字段放在属性表里，不能通过删对象级联删除属性。
-            deviceAttributeService.deleteByDeviceId(device.getId());
+            //移到service中，用一个事务，如果删除出错可以回滚
+            //deviceAttributeService.deleteByDeviceId(device.getId());
 
-            Device deviceUsed1 = deviceService.findById(device.getId());
-            deviceService.delete(deviceUsed1);
+            Device device1 = deviceService.findById(device.getId());
+            deviceService.deleteWithAttr(device1);
             return AjaxResponse.success();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
@@ -487,9 +488,10 @@ public class DeviceController {
 
 
             //先手动删除所有该对象关联的属性，再删除该对象。因为关联关系是属性多对一该对象，关联字段放在属性表里，不能通过删对象级联删除属性。
-            deviceUsedAttributeService.deleteByDeviceUsedId(deviceUsed.getId());
+            //把删除属性放到service里，这样可以通过一个事务管理，如果属性删除失败，则会回滚
+//            deviceUsedAttributeService.deleteByDeviceUsedId(deviceUsed.getId());
 
-            deviceUsedService.delete(deviceUsed1);
+            deviceUsedService.deleteWithAttr(deviceUsed1);
             return AjaxResponse.success();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(),e);
@@ -910,9 +912,10 @@ public class DeviceController {
             }
 
             //先手动删除所有该对象关联的属性，再删除该对象。因为关联关系是属性多对一该对象，关联字段放在属性表里，不能通过删对象级联删除属性。
-            productUsedAttributeService.deleteByProductUsedId(productUsed.getId());
+            //移到service中，用一个事务管理，如果出错可以回滚
+            //productUsedAttributeService.deleteByProductUsedId(productUsed.getId());
 
-            productUsedService.delete(productUsed1);
+            productUsedService.deleteWithAttr(productUsed1);
             return AjaxResponse.success();
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);

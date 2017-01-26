@@ -20,4 +20,6 @@ public interface DeviceUsedService extends GenericEntityService<Long, DeviceUsed
     DeviceUsed getByBoardNo(String mainBoardCode);
 
     DeviceUsed findByStoreIdAndName(Long storeId, String deviceUsedName);
+
+    void deleteWithAttr(DeviceUsed deviceUsed1);
 }

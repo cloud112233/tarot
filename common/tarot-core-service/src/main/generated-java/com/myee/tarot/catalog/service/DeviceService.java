@@ -11,4 +11,6 @@ import com.myee.tarot.core.util.WhereRequest;
  */
 public interface DeviceService extends GenericEntityService<Long, Device> {
     PageResult<Device> pageList(WhereRequest whereRequest);
+
+    void deleteWithAttr(Device device);
 }

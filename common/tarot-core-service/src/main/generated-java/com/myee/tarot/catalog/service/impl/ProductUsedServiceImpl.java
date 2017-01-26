@@ -1,6 +1,7 @@
 package com.myee.tarot.catalog.service.impl;
 
 import com.myee.tarot.catalog.domain.ProductUsed;
+import com.myee.tarot.catalog.service.ProductUsedAttributeService;
 import com.myee.tarot.core.service.GenericEntityServiceImpl;
 import com.myee.tarot.core.util.PageRequest;
 import com.myee.tarot.core.util.PageResult;
@@ -19,7 +20,8 @@ import java.util.List;
 public class ProductUsedServiceImpl extends GenericEntityServiceImpl<Long, ProductUsed> implements ProductUsedService {
 
     protected ProductUsedDao productUsedDao;
-
+    @Autowired
+    private ProductUsedAttributeService productUsedAttributeService;
     @Autowired
     public ProductUsedServiceImpl(ProductUsedDao productUsedDao) {
         super(productUsedDao);
@@ -44,6 +46,12 @@ public class ProductUsedServiceImpl extends GenericEntityServiceImpl<Long, Produ
     @Override
     public ProductUsed getByCode(String code){
         return productUsedDao.getByCode( code);
+    }
+
+    @Override
+    public void deleteWithAttr(ProductUsed productUsed) {
+        productUsedAttributeService.deleteByProductUsedId(productUsed.getId());
+        productUsedDao.delete(productUsed);
     }
 
 }

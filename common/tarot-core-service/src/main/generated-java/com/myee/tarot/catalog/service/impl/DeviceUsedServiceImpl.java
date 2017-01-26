@@ -1,6 +1,7 @@
 package com.myee.tarot.catalog.service.impl;
 
 import com.myee.tarot.catalog.domain.DeviceUsed;
+import com.myee.tarot.catalog.service.DeviceUsedAttributeService;
 import com.myee.tarot.core.service.GenericEntityServiceImpl;
 import com.myee.tarot.core.util.PageRequest;
 import com.myee.tarot.core.util.PageResult;
@@ -19,7 +20,8 @@ import java.util.List;
 public class DeviceUsedServiceImpl extends GenericEntityServiceImpl<Long, DeviceUsed>implements DeviceUsedService {
 
     protected DeviceUsedDao deviceUsedDao;
-
+    @Autowired
+    private DeviceUsedAttributeService deviceUsedAttributeService;
     @Autowired
     public DeviceUsedServiceImpl(DeviceUsedDao deviceUsedDao) {
         super(deviceUsedDao);
@@ -44,5 +46,14 @@ public class DeviceUsedServiceImpl extends GenericEntityServiceImpl<Long, Device
     @Override
     public DeviceUsed findByStoreIdAndName(Long storeId, String deviceUsedName) {
         return deviceUsedDao.findByStoreIdAndName(storeId, deviceUsedName);
+    }
+
+    @Override
+    public void deleteWithAttr(DeviceUsed deviceUsed) {
+        deviceUsedAttributeService.deleteByDeviceUsedId(deviceUsed.getId());
+        //测试事务是否有效代码
+        //int i = 1/0;
+        //测试代码结束-----------------
+        deviceUsedDao.delete(deviceUsed);
     }
 }
