@@ -469,7 +469,7 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
                 //toaster.error({body: "文件路径不能包含/、\\！"});
                 return;
             }
-            if(newFileName != undefined && newFileName != "" && !$filter('regexMatch')(newFileName,'^[a-zA-Z0-9_-\u4e00-\u9fa5\.\\s]*$')){
+            if(newFileName != undefined && newFileName != "" && !$filter('regexMatch')(newFileName,'^[a-zA-Z0-9_\u4e00-\u9fa5\.\-\\s]*$')){
                 $filter('toasterManage')(5, "文件名只能包含汉字、字母、数字、下划线、.和-",false);
                 //toaster.error({body: "文件名称不能包含/、\\！"});
                 return;
