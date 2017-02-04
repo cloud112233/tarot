@@ -280,13 +280,7 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
                 id: 'path',
                 key: 'path',
                 type: 'c_input',
-                templateOptions: {disabled: true, label: '绝对路径', placeholder: '绝对路径'}
-            },
-            {
-                id: 'name',
-                key: 'name',
-                type: 'c_input',
-                templateOptions: {required: true, label: '文件名称', placeholder: '文件名称'},
+                templateOptions: {disabled: true, label: '上层路径', placeholder: '上层路径'}
             },
             {
                 id: 'currPath',
@@ -297,7 +291,7 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
                         attribute: 'maxlength'
                     }
                 },
-                templateOptions: {label: '文件路径', placeholder: '长度小于50，若不输入，则存放于绝对路径下', maxlen: 50},
+                templateOptions: {label: '当前路径', placeholder: '长度小于50，若不输入，则文件存放于上层路径下', maxlen: 50},
                 hideExpression: function ($viewValue, $modelValue, scope) {
                     return scope.model.type == 0 ? true : false;//true新增文件夹时隐藏文件路径，默认路径和名称相同
                 },
@@ -314,6 +308,12 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
                 expressionProperties: {
                     'templateOptions.disabled': 'model.editorModel==1?true:false' //编辑模式不能修改节点类型
                 }
+            },
+            {
+                id: 'name',
+                key: 'name',
+                type: 'c_input',
+                templateOptions: {required: true, label: '文件名称', placeholder: '文件名称（选择文件后自动录入）'},
             },
             {
                 id: "file",
