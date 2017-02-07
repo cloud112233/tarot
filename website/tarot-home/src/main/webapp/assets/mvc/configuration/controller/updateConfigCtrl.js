@@ -147,7 +147,7 @@ function updateConfigCtrl($scope,$resource, cResource, $filter, cfromly, Constan
         {key:'M06',name:'base',type:$scope.mgrUpdateConfigData.constant.BASE_INFO_MODULE.TYPE},
         {key:'M07',name:'power',type:$scope.mgrUpdateConfigData.constant.BASE_INFO_MODULE.TYPE},
         {key:'patch_signed_7zip',name:'agentPatch',type:$scope.mgrUpdateConfigData.constant.BASE_INFO_AGENT_PATCH.TYPE},
-        {key:'Djinn',name:'agent',type:$scope.mgrUpdateConfigData.constant.BASE_INFO_AGENT.TYPE},
+        {key:'Agent',name:'agent',type:$scope.mgrUpdateConfigData.constant.BASE_INFO_AGENT.TYPE},
         {key:'1234',name:'selfDesignBoard',type:$scope.mgrUpdateConfigData.constant.BASE_INFO_SELF_DESIGN_PAD.TYPE},
     ];
 
