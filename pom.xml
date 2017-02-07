@@ -28,7 +28,7 @@
         <version.guava>18.0</version.guava>
         <version.motan>0.2.0</version.motan>
         <version.ignite>1.7.0</version.ignite>
-        <version.djinn.snapshot>0.9-SNAPSHOT</version.djinn.snapshot>
+        <version.djinn.snapshot>1.0-SNAPSHOT</version.djinn.snapshot>
         <!--<metrics.version>3.1.3</metrics.version>-->
     </properties>
 
