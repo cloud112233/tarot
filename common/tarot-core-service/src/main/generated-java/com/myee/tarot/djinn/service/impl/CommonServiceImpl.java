@@ -118,8 +118,8 @@ public class CommonServiceImpl implements CommonService, TransactionalAspectAwar
 	 */
 	@Override
 	public String latestVersionStr(String jsonArgs) throws RemoteException {
-		LOG.info("jsonArgs= {}  DOWNLOAD_HOME={}", jsonArgs, DOWNLOAD_HOME);
-		String latestVersionStr = "";
+		LOG.info("latestVersionStr  jsonArgs= {}  DOWNLOAD_HOME={}", jsonArgs, DOWNLOAD_HOME);
+		String latestVersionStr = com.myee.djinn.constants.Constants.NO_UPDATE_INFO;
 		JSONObject object = JSON.parseObject(jsonArgs);
 		String name = object.getString("name");
 		String type = object.getString("type");
@@ -129,10 +129,12 @@ public class CommonServiceImpl implements CommonService, TransactionalAspectAwar
 		//通过 type  deviceGroupNO 获取到对应设备组和配置记录的关系表数据
 		UpdateConfigProductUsedXREF updateConfigProductUsedXREF = updateConfigProductUsedXREFService.getByTypeAndDeviceGroupNO(type, deviceGroupNO);
 		if (null == updateConfigProductUsedXREF) {
+			LOG.info("latestVersionStr 未查询到升级关联数据，没有配置升级信息");
 			return latestVersionStr;
 		}
 		UpdateConfig updateConfig = updateConfigProductUsedXREF.getUpdateConfig();
 		if(Constants.UPDATE_SEE_TYPE_NONE.equals(updateConfig.getSeeType())){
+			LOG.info("latestVersionStr 升级配置全部不可见");
 			return latestVersionStr;
 		}
 		String configFilePath = updateConfig.getPath();

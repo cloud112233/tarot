@@ -493,9 +493,11 @@ public class PushController {
 		try {
 			for (NoticeType noticeType : NoticeType.values()) {
 				Map entry = new HashMap();
-				entry.put("name",noticeType.getValue());
-				entry.put("value",noticeType.getCaption());
-				resp.addDataEntry(entry);
+				if(noticeType.getCaption().indexOf("source")>=0 || noticeType.getCaption().indexOf("agent")>=0){
+					entry.put("name",noticeType.getValue());
+					entry.put("value",noticeType.getCaption());
+					resp.addDataEntry(entry);
+				}
 			}
 			return resp.getRows();
 		}catch (Exception e){
