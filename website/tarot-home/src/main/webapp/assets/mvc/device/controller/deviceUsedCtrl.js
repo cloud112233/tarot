@@ -7,7 +7,7 @@ angular.module('myee', [])
 deviceUsedCtrl.$inject = ['$scope', 'cResource', 'Constants', 'cTables', 'cfromly', 'NgTableParams', '$q', 'cAlerts', 'toaster', '$filter'];
 function deviceUsedCtrl($scope, cResource, Constants, cTables, cfromly, NgTableParams, $q, cAlerts, toaster, $filter) {
 
-    var iDatatable = 0, iEditor = 1;
+    var iDatatable = 0, iEditor = 1,iBindStore = 2;
     //绑定产品相关参数
     var vm = $scope.showCase = {};
     vm.selected = [];
@@ -146,6 +146,88 @@ function deviceUsedCtrl($scope, cResource, Constants, cTables, cfromly, NgTableP
             $scope.goDataTable();
         });
     };
+
+    //更换门店业务逻辑----------------------------
+
+    function initialBindStore() {
+        if ($scope.initialBindStoreList) {//如果已经从后台读取过数据了，则不再访问后台获取列表
+            var deferred = $q.defer();
+            deferred.resolve($scope.initialBindStoreList);
+            return deferred.promise;
+        } else {//第一次需要从后台读取列表
+            return cResource.get('./merchantStore/getAllStoreExceptSelf').then(function(data){
+                var result = []; //排除当前用户所属门店
+                angular.forEach(data.rows, function (indexData, index, array) {
+                    //indexData等价于array[index]
+                    result.push(indexData);
+                });
+                $scope.initialBindStoreList = result;
+                return result;
+            });
+        }
+    }
+
+    $scope.filterBindStoreOptions = function () {
+        var deferred = $q.defer();
+        //tables获取数据,获取可绑定的所有角色
+        $scope.tableBindStoreOpts = new NgTableParams({}, {
+            counts: [],
+            dataset: $filter('filter')($scope.initialBindStoreList, $scope.showCase.nameFilter || "")//根据搜索字段过滤数组中数据
+        });
+        $scope.loadByInit = true;
+        $scope.tableBindStoreOpts.page(1);
+        $scope.tableBindStoreOpts.reload();
+        deferred.resolve($scope.tableBindStoreOpts);
+        return deferred.promise;
+    }
+
+    //进入更换门店操作
+    $scope.goChangeStore = function (rowIndex) {
+        //进入绑定页面前，赋值用户所属角色
+        if ($scope.tableOpts && rowIndex > -1) {
+            var data = $scope.tableOpts.data[rowIndex];
+            $scope.thisDefaultStoreName = data.store.name;
+        }
+
+        initialBindStore().then(function () {
+            $scope.filterBindStoreOptions().then(function () {
+                $scope.addNew = true;
+
+                if ($scope.tableOpts && rowIndex > -1) {
+                    $scope.showCase.currentRowIndex = rowIndex;//记录当前选择的行，以备后续更新该行数据
+                    $scope.formBindData.model = data;
+                    $scope.formBindData.model.bindShowName = '设备名称:' + (data.name || "") + ' | 当前所属门店名称:' + (Constants.thisMerchantStore.name || "") + ' | 主板编号:' + (data.boardNo || "") + ' | 设备号:' + (data.deviceNum || "");
+
+                    $scope.addNew = false;
+                    $scope.rowIndex = rowIndex;
+                } else {
+                    $scope.formBindData.model = {};
+                }
+                $scope.activeTab = iBindStore;
+            });
+        });
+    }
+
+    $scope.changeStoreSubmit = function (store) {
+        var result = [];
+        result.push(store.id)
+        cResource.save('./device/used/changeMerchantStore',{
+            'bindString': JSON.stringify(result),
+            'deviceUsedId': $scope.formBindData.model.id
+        }, {}).then(function(success){
+            //用js离线刷新表格数据
+            console.log(success)
+            if(success) {
+                //$scope.tableOpts.data[$scope.showCase.currentRowIndex].store=store;
+                //成功就隐藏该条数据，因为已经到其他门店下了
+                console.log($scope.tableOpts.data[$scope.showCase.currentRowIndex])
+                $scope.tableOpts.data.splice($scope.showCase.currentRowIndex, 1);//更新数据表
+
+                $scope.goDataTable();
+            }
+        });
+    };
+
 
     //其他业务逻辑----------------------------
 
@@ -307,4 +389,6 @@ function deviceUsedCtrl($scope, cResource, Constants, cTables, cfromly, NgTableP
     };
 
     cTables.initAttrNgMgr(mgrData, $scope);
+
+
 }

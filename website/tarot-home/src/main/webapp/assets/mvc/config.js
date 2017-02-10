@@ -189,7 +189,8 @@ function routerAll(baseUrl){
                 pageTitle: '设备管理',
                 subTitle: '设备列表',
                 datatable: 'assets/mvc/device/view/device_used_datatable.html',
-                editor: 'assets/mvc/device/view/device_used_editor.html'
+                editor: 'assets/mvc/device/view/device_used_editor.html',
+                other1: 'assets/mvc/device/view/change_store.html',
             },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
@@ -205,7 +206,8 @@ function routerAll(baseUrl){
                 pageTitle: '设备管理',
                 subTitle: '设备组列表',
                 datatable: 'assets/mvc/device/view/product_used_datatable.html',
-                editor: 'assets/mvc/device/view/product_used_editor.html'
+                editor: 'assets/mvc/device/view/product_used_editor.html',
+                other1: 'assets/mvc/device/view/change_store.html',
             },
             resolve: {
                 loadPlugin: function ($ocLazyLoad) {
@@ -850,10 +852,12 @@ angular
             bindStoreDetail:"可操作门店详细",
             noEditUserBindStore:"用户所属门店，不能修改",
             attrDetail:"详细属性",
+            change:"更换",
+            changeStore:"更换门店",
             contentDetail:"内容详细",
             flowDetail:"引流详细",
             flowSet:"设置引流",
-            thisShop:"当前切换的门店",
+            thisShop:"当前门店",
             searchVersion:"查询版本",
             switch:"切换",
             noDeleteThisShop:"当前切换的门店，不能删除",

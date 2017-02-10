@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.myee.djinn.remoting.common.RemotingHelper;
 import com.myee.djinn.rpc.bootstrap.ServerBootstrap;
 import com.myee.tarot.catalog.domain.*;
@@ -20,6 +21,7 @@ import com.myee.tarot.catalog.service.DeviceUsedService;
 import com.myee.tarot.merchant.domain.MerchantStore;
 import com.myee.tarot.catalog.service.ProductUsedAttributeService;
 import com.myee.tarot.catalog.service.ProductUsedService;
+import com.myee.tarot.merchant.service.MerchantStoreService;
 import io.netty.channel.Channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +62,8 @@ public class DeviceController {
     private ProductUsedAttributeService productUsedAttributeService;
 	@Autowired
 	private ServerBootstrap serverBootstrap;
+    @Autowired
+    private MerchantStoreService merchantStoreService;
 
     @RequestMapping(value = {"admin/device/paging", "shop/device/paging"}, method = RequestMethod.GET)
     @ResponseBody
@@ -306,7 +310,7 @@ public class DeviceController {
             }
             return resp;
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         }
         return null;
     }
@@ -438,6 +442,41 @@ public class DeviceController {
         return matcher.matches();
     }
 
+    @RequestMapping(value = "admin/device/used/changeMerchantStore", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('device_list_u')")
+    @ResponseBody
+    public AjaxResponse deviceUsedChangeMerchantStore(@RequestParam(value = "bindString")String bingString, @RequestParam(value = "deviceUsedId")Long deviceUsedId, HttpServletRequest request) {
+        AjaxResponse resp;
+        try {
+            DeviceUsed deviceUsed = deviceUsedService.findById(deviceUsedId);
+            if (deviceUsed == null) {
+                return AjaxResponse.failed(AjaxResponse.RESPONSE_STATUS_FAIURE,"参数不正确");
+            }
+            List<ProductUsed> productUsedList = deviceUsed.getProductUsed();
+            if(productUsedList != null && productUsedList.size() > 0) {
+                return AjaxResponse.failed(AjaxResponse.RESPONSE_STATUS_FAIURE,"已有关联设备组，请先取消关联");
+            }
+
+            List<Long> bindList = JSON.parseArray(bingString, Long.class);
+            List<MerchantStore> merchantStores = null;
+            if(bindList != null && bindList.size() > 0) {
+                merchantStores = merchantStoreService.listByIds(bindList);
+            }
+            if (merchantStores == null || merchantStores.size() == 0) {
+                return AjaxResponse.failed(AjaxResponse.RESPONSE_STATUS_FAIURE,"参数不正确");
+            }
+
+            deviceUsed.setStore(merchantStores.get(0));
+            deviceUsed = deviceUsedService.update(deviceUsed);
+            resp = AjaxResponse.success();
+            resp.addEntry(Constants.RESPONSE_UPDATE_RESULT, objectToEntry(deviceUsed));
+            return resp;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return AjaxResponse.failed(-1, "绑定失败");
+        }
+    }
+
     @RequestMapping(value = {"admin/device/used/bindProductUsed", "shop/device/used/bindProductUsed"}, method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('device_list_u')")
@@ -559,6 +598,7 @@ public class DeviceController {
         entry.put("deviceNum", deviceUsed.getDeviceNum());
         entry.put("description", deviceUsed.getDescription());
         entry.put("phone", deviceUsed.getPhone());
+        entry.put("store", deviceUsed.getStore());
         List<ProductUsed> productUsedList = deviceUsed.getProductUsed();
         if (productUsedList != null) {
             for (ProductUsed productUsed : productUsedList) {
@@ -886,6 +926,38 @@ public class DeviceController {
 
     }
 
+    @RequestMapping(value = "admin/product/used/changeMerchantStore", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('device_list_u')")
+    @ResponseBody
+    public AjaxResponse productUsedChangeMerchantStore(@RequestParam(value = "bindString")String bingString, @RequestParam(value = "productUsedId")Long productUsedId, HttpServletRequest request) {
+        AjaxResponse resp;
+        try {
+            ProductUsed productUsed = productUsedService.findById(productUsedId);
+            if (productUsed == null) {
+                return AjaxResponse.failed(AjaxResponse.RESPONSE_STATUS_FAIURE,"参数不正确");
+            }
+
+            List<Long> bindList = JSON.parseArray(bingString, Long.class);
+            List<MerchantStore> merchantStores = null;
+            if(bindList != null && bindList.size() > 0) {
+                merchantStores = merchantStoreService.listByIds(bindList);
+            }
+            if (merchantStores == null || merchantStores.size() == 0) {
+                return AjaxResponse.failed(AjaxResponse.RESPONSE_STATUS_FAIURE,"参数不正确");
+            }
+
+            //设备组更换门店，其关联的设备也一起更换，用用一个事务
+            productUsed.setStore(merchantStores.get(0));
+            productUsed = productUsedService.changeProductAndDeviceUsedStore(productUsed);
+            resp = AjaxResponse.success();
+            resp.addEntry(Constants.RESPONSE_UPDATE_RESULT, objectToEntry(productUsed));
+            return resp;
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+            return AjaxResponse.failed(-1, "绑定失败");
+        }
+    }
+
     @RequestMapping(value = {"admin/product/used/delete", "shop/product/used/delete"}, method = RequestMethod.POST)
     @ResponseBody
     @PreAuthorize("hasAuthority('device_product_d')")
@@ -933,6 +1005,7 @@ public class DeviceController {
         entry.put("type", productUsed.getType());
         entry.put("productNum", productUsed.getProductNum());
         entry.put("description", productUsed.getDescription());
+        entry.put("store", productUsed.getStore());
         if (productUsed.getDeviceUsed() != null) {
             for (DeviceUsed deviceUsed : productUsed.getDeviceUsed()) {
                 deviceUsed.setProductUsed(null);

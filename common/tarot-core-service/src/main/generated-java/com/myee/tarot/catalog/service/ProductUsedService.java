@@ -22,4 +22,6 @@ public interface ProductUsedService extends GenericEntityService<Long, ProductUs
     ProductUsed getByCode(String code);
 
     void deleteWithAttr(ProductUsed productUsed);
+
+    ProductUsed changeProductAndDeviceUsedStore(ProductUsed productUsed);
 }
