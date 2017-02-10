@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.myee.tarot.core.Constants;
 import com.myee.tarot.core.dao.GenericEntityDaoImpl;
+import com.myee.tarot.core.util.DateTimeUtils;
 import com.myee.tarot.core.util.PageResult;
 import com.myee.tarot.core.util.StringUtil;
 import com.myee.tarot.core.util.WhereRequest;
@@ -49,16 +50,12 @@ public class UpdateConfigDaoImpl extends GenericEntityDaoImpl<Long, UpdateConfig
 			obj = map.get(Constants.SEARCH_BEGIN_DATE);
 			if (obj != null && !StringUtil.isBlank(obj.toString())) {
 				String dateString = obj.toString();
-				dateString = dateString.replace("T", " ");
-				dateString = dateString.replace("Z", " ");
-				query.where(qUpdateConfig.createTime.after(format.parse(dateString)));
+				query.where(qUpdateConfig.createTime.after(DateTimeUtils.calBeginDay(dateString, format)));
 			}
 			obj = map.get(Constants.SEARCH_END_DATE);
 			if (obj != null && !StringUtil.isBlank(obj.toString())) {
 				String dateString = obj.toString();
-				dateString = dateString.replace("T", " ");
-				dateString = dateString.replace("Z", " ");
-				query.where(qUpdateConfig.createTime.before(format.parse(dateString)));
+				query.where(qUpdateConfig.createTime.before(DateTimeUtils.calEndDay(dateString, format)));
 			}
 		}
         pageList.setRecordsTotal(query.fetchCount());

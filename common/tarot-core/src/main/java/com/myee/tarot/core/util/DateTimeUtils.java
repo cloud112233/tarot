@@ -6,6 +6,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -247,6 +248,48 @@ public class DateTimeUtils {
      */
     public static Date endOneDay(String endDate) {
         return getDateByString(endDate + HOUR_END);
+    }
+
+    /**
+     * 根据前端控件传入的日期时间计算一天结束时间
+     *
+     * @param dateString 格式2017-02-09T00:00:00.000Z
+     * @param format
+     * @return
+     */
+    public static Date calBeginDay(String dateString,DateFormat format) {
+        dateString = dateString.replace("T", " ");
+        dateString = dateString.replace("Z", " ");
+        Date beginDate = null;
+        try {
+            beginDate= format.parse(dateString);
+        } catch (ParseException e) {
+            logger.error(e.getMessage(),e);
+        }
+        return beginDate;
+    }
+
+    /**
+     * 根据前端控件传入的日期时间计算一天结束时间
+     *
+     * @param dateString 格式2017-02-09T00:00:00.000Z
+     * @param format
+     * @return
+     */
+    public static Date calEndDay(String dateString,DateFormat format) {
+        dateString = dateString.replace("T", " ");
+        dateString = dateString.replace("Z", " ");
+        Date endDate = null;
+        try {
+            endDate = format.parse(dateString);
+        } catch (ParseException e) {
+            logger.error(e.getMessage(),e);
+        }
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(endDate);
+        calendar.add(calendar.DATE,1);//把日期往后增加一天.整数往后推,负数往前移动
+        endDate=calendar.getTime();   //这个时间就是日期往后推一天的结果
+        return endDate;
     }
 
     /**
