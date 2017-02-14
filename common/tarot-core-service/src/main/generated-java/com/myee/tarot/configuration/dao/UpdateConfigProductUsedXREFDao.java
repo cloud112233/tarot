@@ -24,4 +24,6 @@ public interface UpdateConfigProductUsedXREFDao extends GenericEntityDao<Long, U
 	List<UpdateConfigProductUsedXREF> listByConfigId(Long configId);
 
 	void deleteByConfigAndDeviceGroupNO(UpdateConfig updateConfig, String deviceGroupNO);
+
+	List<Long> listUpdateConfigIdsByProductUsedIds(List<Long> productUsedIdList);
 }

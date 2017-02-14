@@ -4,30 +4,36 @@
     <!--<input type="file" id="boardUpdateFile" onchange="angular.element(this).scope().boardUpdateFile(this)"/>-->
 <!--</div>-->
 <div class="space-6"></div>
-<advanced-search title="" datepicker="true"></advanced-search>
-
-    <!--<ul class="form-inline" ng-keyup="search($event)">-->
-        <!--<li>-->
-            <!--<div class="form-group m-l">-->
-                <!--<c-Datepicker placeholder="开始日期" model="where.queryObj.beginDate" style="width:150px;"></c-Datepicker>-->
-                <!--<i class="fa fa-exchange"></i>-->
-                <!--<c-Datepicker placeholder="结束日期" model="where.queryObj.endDate" style="width:150px;"></c-Datepicker>-->
-            <!--</div>-->
-        <!--</li>-->
-        <!--<li class="searchHigh">-->
-            <!--<div class="form-group searchHigh" ng-repeat="f in mgrUpdateConfigData.fields" ng-if="f.templateOptions.isSearch">-->
-                <!--<input ng-if="f.type == 'c_input' || f.type == 'c_textarea'" ng-model="where.queryObj[f.key]" type="text" class="form-control" placeholder="{{f.templateOptions.label}}"/>-->
-                <!--<select ng-if="f.type == 'c_select'" ng-model="where.queryObj[f.key]" ng-init="where.queryObj[f.key]=''" class="form-control m-l-sm">-->
-                    <!--<option value="" selected="selected">选择{{f.templateOptions.label}}</option>-->
-                    <!--<option ng-repeat="o in f.templateOptions.options" value="{{o.value}}">{{o.name}}</option>-->
-                <!--</select>-->
-            <!--</div>-->
-        <!--</li>-->
-        <!--<li>-->
-            <!--<button class="btn btn-sm btn-danger m-l" type="button" ng-click="search()"><i class="fa fa-search"></i><span class="bold">搜索</span></button>-->
-            <!--&lt;!&ndash;<span ng-click="sHighBut()">{{sHigh?'简化搜索':'高级搜索'}}</span>&ndash;&gt;-->
-        <!--</li>-->
-    <!--</ul>-->
+<!--<advanced-search title="" datepicker="true"></advanced-search>-->
+<div class="alert alert-info">
+    <ul class="form-inline" ng-keyup="search($event)">
+        <li>
+            <div class="form-group m-l">
+                <input ng-model="where.queryObj['deviceGroupNo']" type="text" class="form-control" placeholder="设备组编号"/>
+            </div>
+        </li>
+        <li>
+            <div class="form-group m-l">
+                <c-Datepicker placeholder="开始日期" model="where.queryObj.beginDate" style="width:150px;"></c-Datepicker>
+                <i class="fa fa-exchange"></i>
+                <c-Datepicker placeholder="结束日期" model="where.queryObj.endDate" style="width:150px;"></c-Datepicker>
+            </div>
+        </li>
+        <li class="searchHigh" ng-show="sHigh">
+            <div class="form-group searchHigh" ng-repeat="f in mgrUpdateConfigData.fields" ng-if="f.templateOptions.isSearch">
+                <input ng-if="f.type == 'c_input' || f.type == 'c_textarea'" ng-model="where.queryObj[f.key]" type="text" class="form-control" placeholder="{{f.templateOptions.label}}"/>
+                <select ng-if="f.type == 'c_select'" ng-model="where.queryObj[f.key]" ng-init="where.queryObj[f.key]=''" class="form-control m-l-sm">
+                    <option value="" selected="selected">选择{{f.templateOptions.label}}</option>
+                    <option ng-repeat="o in f.templateOptions.options" value="{{o.value}}">{{o.name}}</option>
+                </select>
+            </div>
+        </li>
+        <li>
+            <button class="btn btn-sm btn-danger m-l" type="button" ng-click="search()"><i class="fa fa-search"></i><span class="bold">搜索</span></button>
+            <span ng-click="sHighBut()">{{sHigh?'简化搜索':'高级搜索'}}</span>
+        </li>
+    </ul>
+</div>
 
 <div class="space-6"></div>
 <div class="row">
@@ -45,6 +51,7 @@
                             <th width="120" class="center">设备可见范围</th>
                             <th width="13%" class="center">创建时间</th>
                             <th width="13%" class="center">配置文件下载路径</th>
+                            <th width="13%" class="center">关联的设备组</th>
                             <th width="65" class="center">关联</th>
                             <th width="120" class="center">操作</th>
                         </tr>
@@ -62,6 +69,9 @@
                             <td class="center">{{::row.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                             <td class="center">
                                 <popover content="{{row.path?baseUrl.pushUrl+'100/'+row.path:''}}" position="top" class="cropLongString-120"></popover>
+                            </td>
+                            <td class="center works">
+                                <popover content="{{row.productUsedList | getProductUsedCodeString}}" position="top" class="cropLongString-120"></popover>
                             </td>
                             <td class="center works">
                                 <table-rights tooltip="{{lang_zh.bindProduct}}" ng-click="goDeviceBindProductEditor($index)" type="u" tclass="fa-link"></table-rights>

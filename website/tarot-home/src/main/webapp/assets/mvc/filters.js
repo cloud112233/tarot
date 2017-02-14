@@ -11,6 +11,28 @@ angular
     .filter('routers',routers)
     .filter('findEach',findEach)
     .filter('regexMatch',regexMatch)
+    .filter('getProductUsedCodeString',getProductUsedCodeString)
+
+//从设备组列表取出设备组编号，拼成字符串
+function getProductUsedCodeString(){
+    return function (productUsedList) {
+        if( !productUsedList ){
+            return '';
+        }
+        var codeString = '';
+        var length = productUsedList.length;
+        angular.forEach(productUsedList, function (indexData, index, array) {
+            //indexData等价于array[index]
+            if( index != length-1 ) {
+                codeString += indexData.code + ",";
+            }
+            else {
+                codeString += indexData.code;
+            }
+        } );
+        return codeString;
+    }
+}
 
 //判断对象是否是空或空字符
 function isNullOrEmptyString(){

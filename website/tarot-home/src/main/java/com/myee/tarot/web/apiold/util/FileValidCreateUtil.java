@@ -81,6 +81,8 @@ public class FileValidCreateUtil {
 //    public static void main(String[] args) {
 //        try {
 //            System.out.println(fileMD5("D:/Documents/muye/desktop/Cooky-C001M01A007-RK3288_V2-20161130OTA.zip"));
+//            System.out.println(fileMD5("D:/Documents/muye/desktop/artemis-release_2.0.0_14018.apk"));
+//            System.out.println(fileMD5("D:/SVNBack/100产品版本归档/开发转测试版本/大学士/应用版本/20170108_升级版本/artemis-release_2.0.0_14018/artemis-release_2.0.0_14018.apk"));
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }

@@ -22,4 +22,6 @@ public interface ProductUsedDao extends GenericEntityDao<Long, ProductUsed> {
     List<ProductUsed> listByIDs(List<Long>idList);
 
     ProductUsed getByCode(String code);
+
+    List<Long> listIDsLikeCode(String code);
 }

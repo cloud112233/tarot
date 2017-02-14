@@ -102,4 +102,16 @@ public class UpdateConfigProductUsedXREFDaoImpl extends GenericEntityDaoImpl<Lon
 			deleteClause.execute();
 		}
 	}
+
+	@Override
+	public List<Long> listUpdateConfigIdsByProductUsedIds(List<java.lang.Long> productUsedIdList) {
+		QUpdateConfigProductUsedXREF qUpdateConfigX = QUpdateConfigProductUsedXREF.updateConfigProductUsedXREF;
+		JPQLQuery<Long> query = new JPAQuery(getEntityManager());
+		query.select(qUpdateConfigX.updateConfig.id);
+		query.from(qUpdateConfigX);
+		query.where(qUpdateConfigX.productUsed.id.in(productUsedIdList));
+		query.groupBy(qUpdateConfigX.updateConfig.id);
+		query.orderBy(qUpdateConfigX.updateConfig.id.asc());
+		return query.fetch();
+	}
 }
