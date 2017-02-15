@@ -310,12 +310,6 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
                 }
             },
             {
-                id: 'name',
-                key: 'name',
-                type: 'c_input',
-                templateOptions: {required: true, label: '文件名称', placeholder: '文件名称（选择文件后自动录入）'},
-            },
-            {
                 id: "file",
                 key: 'file',
                 type: 'upload',
@@ -333,7 +327,14 @@ function explorerCtrl($scope,$resource, cResource, $filter, cfromly, Constants, 
                 //    'templateOptions.disabled': 'model.ifEditor', // disabled when ifEditor is true
                 //    //'templateOptions.disabled': 'model.editorModel==1?true:false'
                 //}
+            },
+            {
+                id: 'name',
+                key: 'name',
+                type: 'c_input',
+                templateOptions: {required: true, label: '文件名称', placeholder: '文件名称（选择文件后自动录入）'},
             }
+
             //{
             //    key: 'ifEditor',
             //    type: 'c_input',
